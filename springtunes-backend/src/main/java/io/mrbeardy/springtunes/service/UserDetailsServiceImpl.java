@@ -6,25 +6,25 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import io.mrbeardy.springtunes.security.AppUserDetails;
-import io.mrbeardy.springtunes.entity.User;
-import io.mrbeardy.springtunes.repository.UserRepository;
+import io.mrbeardy.springtunes.entity.Account;
+import io.mrbeardy.springtunes.repository.AccountRepository;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private AccountRepository accountRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) 
         throws UsernameNotFoundException 
     {
-        User user = userRepository.getUserByUsername(username);
+        Account account = accountRepository.getUserByUsername(username);
 
-        if (user == null) {
+        if (account == null) {
             throw new UsernameNotFoundException("Could not find user with username '" + username + "'");
         }
 
-        return new AppUserDetails(user);
+        return new AppUserDetails(account);
     }
     
 }

@@ -1,37 +1,44 @@
 package io.mrbeardy.springtunes.security;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
-import io.mrbeardy.springtunes.entity.User;
+import io.mrbeardy.springtunes.entity.Authority;
+import io.mrbeardy.springtunes.entity.Account;
 
 public class AppUserDetails implements UserDetails {
 
-    private User user;
+    private Account account;
 
-    public AppUserDetails(User user) {
-        this.user = user;
+    public AppUserDetails(Account account) {
+        this.account = account;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
+        Collection<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<SimpleGrantedAuthority>();
 
-        return Arrays.asList(authority);
+        for (Authority authority : account.getAuthorities()) {
+            simpleGrantedAuthorities.add(new SimpleGrantedAuthority(authority.getRole()));
+        }
+
+        return simpleGrantedAuthorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return account.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return account.getUsername();
     }
 
     @Override
@@ -51,7 +58,7 @@ public class AppUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isEnabled();
+        return account.isEnabled();
     }
     
 }

@@ -1,6 +1,7 @@
 package io.mrbeardy.springtunes.configuration;
 
 import io.mrbeardy.springtunes.controllers.AdminController;
+import io.mrbeardy.springtunes.controllers.AccountController;
 import io.mrbeardy.springtunes.service.UserDetailsServiceImpl;
 
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfiguration {
+    public static final String ADMIN_ROLE = "ADMIN";
+    public static final String USER_ROLE = "USER";
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -39,7 +42,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .mvcMatchers(AdminController.EndpointPath).hasRole("ADMIN")
+                .mvcMatchers(AdminController.EndpointPath).hasRole(ADMIN_ROLE)
+                .mvcMatchers(AccountController.EndpointPath).hasRole(USER_ROLE)
                 .antMatchers("/**").permitAll()
                 .and().httpBasic();
 

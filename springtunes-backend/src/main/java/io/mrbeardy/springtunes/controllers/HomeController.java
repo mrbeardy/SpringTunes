@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
         public static final String EndpointPath = "/api/home";
 
-    @GetMapping("")
+    @GetMapping()
     public String index() {
         return "Hello World";
     }

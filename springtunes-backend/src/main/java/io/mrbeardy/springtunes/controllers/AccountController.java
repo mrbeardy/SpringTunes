@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(AdminController.EndpointPath)
-public class AdminController {
-    public static final String EndpointPath = "/api/admin";
+@RequestMapping(AccountController.EndpointPath)
+public class AccountController {
+    public static final String EndpointPath = "/api/account";
 
     @GetMapping()
     public String index() {
-        return "Admin area";
+        return "Account area";
     }
 
 }
